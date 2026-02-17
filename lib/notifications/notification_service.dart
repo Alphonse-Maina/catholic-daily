@@ -14,7 +14,11 @@ class NotificationService {
 
     await _notifications.initialize(settings);
 
-    // Initialize timezone package (needed for scheduling)
+    await _notifications
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
+
     tz.initializeTimeZones();
   }
 
@@ -42,6 +46,21 @@ class NotificationService {
     );
   }
 
+  static Future<void> showInstantTest() async {
+    await _notifications.show(
+      999,
+      "Test Notification",
+      "If you see this, notifications work",
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'test',
+          'Test',
+          importance: Importance.max,
+          priority: Priority.high,
+        ),
+      ),
+    );
+  }
 
 
   static tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {

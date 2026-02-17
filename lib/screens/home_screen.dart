@@ -1,5 +1,7 @@
+import 'package:catholic_daily/services/daily_reading.dart';
 import 'package:flutter/material.dart';
 import '../models/daily_readings.dart';
+import '../services/daily_theme_service.dart';
 import '../services/reading_service.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,23 +17,13 @@ class HomeScreen extends StatelessWidget {
     "St. Mary"
   ];
 
-  final Map<int, Color> liturgicalColors = {
-    1: Colors.green,
-    2: Colors.green,
-    3: Colors.green,
-    4: Colors.purple,
-    5: Colors.red,
-    6: Colors.white,
-    7: Colors.white,
-  };
-
   final ReadingService readingService = ReadingService();
 
   @override
   Widget build(BuildContext context) {
+    final themeColor = DailyThemeService.instance.themeColor;
     int today = DateTime.now().weekday;
     String saint = saints[today - 1];
-    Color color = liturgicalColors[today]!;
 
     // MVP: save sample reading if not exists
     if (readingService.getTodayReading() == null) {
@@ -44,18 +36,20 @@ class HomeScreen extends StatelessWidget {
     }
 
     final reading = readingService.getTodayReading()!;
+    final verse = DailyVerse.getToday();
+
 
     return Scaffold(
+      backgroundColor: themeColor.withOpacity(0.05),
       appBar: AppBar(
         title: Text("Catholic Daily"),
-        backgroundColor: color,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
             Card(
-              color: color.withOpacity(0.2),
+              color: themeColor.withOpacity(0.2),
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -89,9 +83,34 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+            Card(
+              margin: const EdgeInsets.all(12),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    const Text("Daily Verse",
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 8),
+                    Text(
+                      verse["text"],
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      verse["ref"],
+                      style: const TextStyle(
+                          fontStyle: FontStyle.italic, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
+
     );
   }
 }

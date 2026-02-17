@@ -1,0 +1,15 @@
+final List<String> prayers = [
+  "Our Father",
+  "Hail Mary 1",
+  "Hail Mary 2",
+  "Hail Mary 3",
+  "Hail Mary 4",
+  "Hail Mary 5",
+  "Hail Mary 6",
+  "Hail Mary 7",
+  "Hail Mary 8",
+  "Hail Mary 9",
+  "Hail Mary 10",
+  "Glory Be",
+  "Fatima Prayer",
+];
