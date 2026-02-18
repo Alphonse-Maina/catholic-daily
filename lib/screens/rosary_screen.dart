@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../data/rosary_loader.dart';
+import '../models/liturgical_day.dart';
 import '../models/mystery.dart';
-import '../services/daily_theme_service.dart';
+import '../services/liturgical_service.dart';
 import 'prayer_screen.dart';
 
 class RosaryScreen extends StatefulWidget {
@@ -12,6 +13,7 @@ class RosaryScreen extends StatefulWidget {
 }
 
 class _RosaryScreenState extends State<RosaryScreen> {
+  LiturgicalDay? today;
   List<Mystery> todayMysteries = [];
   Color themeColor = Colors.blue; // default
 
@@ -23,33 +25,15 @@ class _RosaryScreenState extends State<RosaryScreen> {
 
   Future<void> _loadTodaysMysteries() async {
     final mysteries = await RosaryLoader.loadMysteriesForToday();
-    final color = DailyThemeService.instance.themeColor;
+    final service = LiturgicalService();
+    final now = DateTime.now();
+
+    final lit = service.getDay(now);
 
     setState(() {
       todayMysteries = mysteries;
-      themeColor = color;
+      themeColor = lit!.colorValue;
     });
-  }
-
-  Color getLiturgicalColor(DateTime date) {
-    switch (date.weekday) {
-      case DateTime.sunday:
-        return Colors.white; // Glorious
-      case DateTime.monday:
-        return Colors.purple; // Sorrowful
-      case DateTime.tuesday:
-        return Colors.yellow; // Joyful
-      case DateTime.wednesday:
-        return Colors.white; // Glorious
-      case DateTime.thursday:
-        return Colors.blue; // Luminous
-      case DateTime.friday:
-        return Colors.red; // Sorrowful
-      case DateTime.saturday:
-        return Colors.yellow; // Joyful
-      default:
-        return Colors.blue;
-    }
   }
 
   @override

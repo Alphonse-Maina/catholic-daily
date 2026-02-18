@@ -5,11 +5,13 @@ import 'verse_screen.dart';
 class ChapterScreen extends StatefulWidget {
   final int bookId;
   final String bookName;
+  final color;
 
   const ChapterScreen({
     super.key,
     required this.bookId,
     required this.bookName,
+    required this.color,
   });
 
   @override
@@ -33,7 +35,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.bookName)),
+      appBar: AppBar(title: Text(widget.bookName), backgroundColor: widget.color,),
       body: chapters.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
@@ -51,6 +53,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                     bookId: widget.bookId,
                     bookName: widget.bookName,
                     chapter: chapter,
+                    color: widget.color,
                   ),
                 ),
               );

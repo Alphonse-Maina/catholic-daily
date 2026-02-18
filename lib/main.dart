@@ -1,4 +1,5 @@
 import 'package:catholic_daily/screens/bible_screen.dart';
+import 'package:catholic_daily/screens/prayers_screen.dart';
 import 'package:catholic_daily/screens/rosary_screen.dart';
 import 'package:flutter/material.dart';
 import 'notifications/notification_service.dart';
@@ -41,10 +42,10 @@ class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    HomeScreen(),
+    HomePage(),
     RosaryScreen(), // Rosary
     BibleScreen(), // Bible
-    Placeholder(), // Prayers
+    PrayersPage(), // Prayers
     Placeholder(), // Settings
   ];
 

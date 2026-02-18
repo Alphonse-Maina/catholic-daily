@@ -66,31 +66,31 @@
   "glorious": [
     {
       "title": "Resurrection",
-      "image": "assets/rosary/glorious1.webp",
+      "image": "assets/rosary/glorious_resurrection.webp",
       "shortDescription": "Jesus rises from the dead.",
       "bibleReference": "Matthew 28:1-10"
     },
     {
       "title": "Ascension",
-      "image": "assets/rosary/glorious2.webp",
+      "image": "assets/rosary/glorious_ascension.webp",
       "shortDescription": "Jesus ascends to Heaven.",
       "bibleReference": "Acts 1:6-11"
     },
     {
       "title": "Descent of the Holy Spirit",
-      "image": "assets/rosary/glorious3.webp",
+      "image": "assets/rosary/glorious_descent.webp",
       "shortDescription": "Holy Spirit comes upon the Apostles.",
       "bibleReference": "Acts 2:1-4"
     },
     {
       "title": "Assumption",
-      "image": "assets/rosary/glorious4.webp",
+      "image": "assets/rosary/glorious_assumption.webp",
       "shortDescription": "Mary is assumed into Heaven.",
       "bibleReference": "Revelation 12:1"
     },
     {
       "title": "Coronation of Mary",
-      "image": "assets/rosary/glorious5.webp",
+      "image": "assets/rosary/glorious_coronation.webp",
       "shortDescription": "Mary is crowned Queen of Heaven.",
       "bibleReference": "Revelation 12:1-5"
     }
@@ -98,31 +98,31 @@
   "luminous": [
     {
       "title": "Baptism of Jesus",
-      "image": "assets/rosary/luminous1.webp",
+      "image": "assets/rosary/luminous_baptism.webp",
       "shortDescription": "Jesus is baptized in the Jordan River by John.",
       "bibleReference": "Matthew 3:13-17"
     },
     {
       "title": "Wedding at Cana",
-      "image": "assets/rosary/luminous2.webp",
+      "image": "assets/rosary/luminous_cana.webp",
       "shortDescription": "Jesus performs His first miracle turning water into wine.",
       "bibleReference": "John 2:1-11"
     },
     {
       "title": "Proclamation of the Kingdom",
-      "image": "assets/rosary/luminous3.webp",
+      "image": "assets/rosary/luminous_proclamation.webp",
       "shortDescription": "Jesus proclaims the Kingdom of God and calls to conversion.",
       "bibleReference": "Mark 1:14-15"
     },
     {
       "title": "Transfiguration",
-      "image": "assets/rosary/luminous4.webp",
+      "image": "assets/rosary/luminous_transfiguration.webp",
       "shortDescription": "Jesus is transfigured on the mountain before Peter, James, and John.",
       "bibleReference": "Luke 9:28-36"
     },
     {
       "title": "Institution of the Eucharist",
-      "image": "assets/rosary/luminous5.webp",
+      "image": "assets/rosary/luminous_institution.webp",
       "shortDescription": "Jesus gives us the Eucharist at the Last Supper.",
       "bibleReference": "Luke 22:14-20"
     }

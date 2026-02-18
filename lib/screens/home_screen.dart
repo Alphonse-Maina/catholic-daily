@@ -1,116 +1,186 @@
-import 'package:catholic_daily/services/daily_reading.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import '../models/daily_readings.dart';
-import '../services/daily_theme_service.dart';
-import '../services/reading_service.dart';
+import 'package:flutter/services.dart';
+import '../services/liturgical_service.dart';
+import '../models/liturgical_day.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
-  final List<String> saints = [
-    "St. Peter",
-    "St. Paul",
-    "St. Therese",
-    "St. Francis",
-    "St. Joseph",
-    "St. Anthony",
-    "St. Mary"
-  ];
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
-  final ReadingService readingService = ReadingService();
+class _HomePageState extends State<HomePage> {
+  LiturgicalDay? today;
+  String saint = "Loading...";
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  Future<void> loadData() async {
+    final service = LiturgicalService();
+    final now = DateTime.now();
+
+    final lit = service.getDay(now);
+
+    final jsonString = await rootBundle.loadString('lib/data/saints.json');
+    final List saints = json.decode(jsonString);
+
+    final found = saints.firstWhere(
+          (s) =>
+      s["month_num"] == now.month.toString() &&
+          s["saint_day"] == now.day.toString(),
+      orElse: () => null,
+    );
+
+    setState(() {
+      today = lit;
+      saint = found?["saint_name"] ?? "No saint today";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final themeColor = DailyThemeService.instance.themeColor;
-    int today = DateTime.now().weekday;
-    String saint = saints[today - 1];
-
-    // MVP: save sample reading if not exists
-    if (readingService.getTodayReading() == null) {
-      readingService.saveTodayReading(DailyReading(
-        firstReading: "Genesis 1:1-5",
-        psalm: "Psalm 23",
-        secondReading: "Romans 5:12-19",
-        gospel: "John 1:1-14",
-      ));
+    if (today == null) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
     }
 
-    final reading = readingService.getTodayReading()!;
-    final verse = DailyVerse.getToday();
-
+    final Color bgColor = today!.colorValue;
 
     return Scaffold(
-      backgroundColor: themeColor.withOpacity(0.05),
+      backgroundColor: bgColor.withOpacity(.12),
       appBar: AppBar(
-        title: Text("Catholic Daily"),
+        elevation: 0,
+        backgroundColor: bgColor,
+        title: const Text("Catholic Daily"),
+        centerTitle: true,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: ListView(
+        child: Column(
           children: [
-            Card(
-              color: themeColor.withOpacity(0.2),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Text(
-                      "Saint of the Day",
-                      style:
-                      TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      saint,
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ],
-                ),
+            _card(
+              bgColor,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _title("Today’s Liturgy"),
+                  const SizedBox(height: 10),
+                  _row("Season", today!.season),
+                  _row("Color", today!.color),
+                  _row("Celebration", today!.celebration),
+                ],
               ),
             ),
-            SizedBox(height: 20),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("First Reading: ${reading.firstReading}"),
-                    Text("Psalm: ${reading.psalm}"),
-                    Text("Second Reading: ${reading.secondReading}"),
-                    Text("Gospel: ${reading.gospel}"),
-                  ],
-                ),
+
+            _card(
+              bgColor,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _title("Saint of the Day"),
+                  const SizedBox(height: 8),
+                  Text(
+                    saint,
+                    style: const TextStyle(fontSize: 18),
+                  )
+                ],
               ),
             ),
-            Card(
-              margin: const EdgeInsets.all(12),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    const Text("Daily Verse",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 8),
-                    Text(
-                      verse["text"],
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      verse["ref"],
-                      style: const TextStyle(
-                          fontStyle: FontStyle.italic, color: Colors.grey),
-                    ),
-                  ],
-                ),
+
+            _card(
+              bgColor,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  _SectionTitle("Daily Verse"),
+                  SizedBox(height: 8),
+                  Text(
+                    "Verse will appear here",
+                    style: TextStyle(fontSize: 17),
+                  )
+                ],
+              ),
+            ),
+
+            _card(
+              bgColor,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  _SectionTitle("Mass Readings"),
+                  SizedBox(height: 8),
+                  Text(
+                    "Readings will load here",
+                    style: TextStyle(fontSize: 17),
+                  )
+                ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
 
+  Widget _card(Color color, Widget child) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: color.withOpacity(.25),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          )
+        ],
+      ),
+      child: child,
+    );
+  }
+
+  Widget _row(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Text("$title: ",
+              style:
+              const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          Expanded(
+              child: Text(value, style: const TextStyle(fontSize: 16)))
+        ],
+      ),
+    );
+  }
+
+  Widget _title(String text) {
+    return Text(
+      text,
+      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    );
+  }
+}
+
+class _SectionTitle extends StatelessWidget {
+  final String text;
+  const _SectionTitle(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
     );
   }
 }

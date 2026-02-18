@@ -74,6 +74,8 @@ flutter:
      - lib/data/rosary_mysteries.json
      - assets/rosary/
      - assets/Bible/KJV.db
+     - lib/data/prayers.json
+     - lib/data/saints.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

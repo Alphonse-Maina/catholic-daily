@@ -9,12 +9,14 @@ class VerseScreen extends StatefulWidget {
   final int bookId;
   final String bookName;
   final int chapter;
+  final Color color;
 
   const VerseScreen({
     super.key,
     required this.bookId,
     required this.bookName,
     required this.chapter,
+    required this.color
   });
 
   @override
@@ -47,7 +49,7 @@ class _VerseScreenState extends State<VerseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:
-      AppBar(title: Text("${widget.bookName} ${widget.chapter}")),
+      AppBar(title: Text("${widget.bookName} ${widget.chapter}"), backgroundColor:widget.color),
       body: verses.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
