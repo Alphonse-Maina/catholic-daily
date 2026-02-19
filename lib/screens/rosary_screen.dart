@@ -1,9 +1,10 @@
+import 'package:catholic_daily/screens/pray_with_me.dart';
 import 'package:flutter/material.dart';
 import '../data/rosary_loader.dart';
 import '../models/liturgical_day.dart';
 import '../models/mystery.dart';
 import '../services/liturgical_service.dart';
-import 'prayer_screen.dart';
+import 'list_mysteries_screen.dart';
 
 class RosaryScreen extends StatefulWidget {
   const RosaryScreen({super.key});
@@ -14,24 +15,24 @@ class RosaryScreen extends StatefulWidget {
 
 class _RosaryScreenState extends State<RosaryScreen> {
   LiturgicalDay? today;
-  List<Mystery> todayMysteries = [];
-  Color themeColor = Colors.blue; // default
+  Color themeColor = Colors.blue;
+  Map <String, List<Mystery>> allMysteries = {};
 
   @override
   void initState() {
     super.initState();
-    _loadTodaysMysteries();
+    _loadMysteries();
   }
 
-  Future<void> _loadTodaysMysteries() async {
-    final mysteries = await RosaryLoader.loadMysteriesForToday();
+  Future<void> _loadMysteries() async {
+    final mysteriesMap = await RosaryLoader.loadAllMysteries();
     final service = LiturgicalService();
     final now = DateTime.now();
 
     final lit = service.getDay(now);
 
     setState(() {
-      todayMysteries = mysteries;
+      allMysteries = mysteriesMap;
       themeColor = lit!.colorValue;
     });
   }
@@ -39,81 +40,49 @@ class _RosaryScreenState extends State<RosaryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: themeColor.withOpacity(.12),
       appBar: AppBar(
-        title: Text("Today's Mysteries"),
+        title: Text("The Mysteries of the Rosary"),
         backgroundColor: themeColor,
+        centerTitle: true,
       ),
-      body: todayMysteries.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-        padding: const EdgeInsets.all(12),
-        itemCount: todayMysteries.length,
-        itemBuilder: (context, index) {
-          final mystery = todayMysteries[index];
-          return Card(
-            elevation: 4,
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12)),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(12),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => PrayerScreen(
-                      mysteries: todayMysteries,
-                      themeColor: themeColor,
-                      reset: true,
-                    ),
-                  ),
-                );
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(12)),
-                    child: Image.asset(
-                      mystery.imageAsset,
-                      height: 300,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          mystery.title,
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          mystery.shortDescription,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          mystery.bibleReference,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: themeColor.withOpacity(0.8),
-                              fontStyle: FontStyle.italic),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+    body: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Expanded(
+          child: ListView(
+            children: allMysteries.keys.map((key) {
+              return ListTile(
+                title: Text("The ${key[0].toUpperCase()}${key.substring(1)} Mysteries"),
+                subtitle: Text("Has ${allMysteries[key]!.length} mysteries"),
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => ListMysteriesScreen(
+                            title: key.toString(),
+                            allMysteries: allMysteries[key]!,
+                            color: themeColor,
+                          )
+                      ),
+                  );
+              }
+              );
+            }).toList(),
+          ),
+        ),
+        SizedBox( height: 20,),
+        ElevatedButton(
+            onPressed: (){
+              Navigator.push(context,
+              MaterialPageRoute(builder: (_)=> PrayWithMe()),
+              );
+            },
+            child: Text("Pray Today's Rosary")
+        )
+      ],
+    ),
+
     );
   }
 }

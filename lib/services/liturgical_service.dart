@@ -23,7 +23,6 @@ class LiturgicalService {
 
   LiturgicalDay getDay(DateTime date) {
     final easter = calculateEaster(date.year);
-
     final ashWednesday = easter.subtract(const Duration(days: 46));
     final pentecost = easter.add(const Duration(days: 49));
     final christmas = DateTime(date.year, 12, 25);
