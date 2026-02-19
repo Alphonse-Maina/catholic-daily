@@ -27,14 +27,14 @@ A simple, elegant Catholic companion app built with Flutter that provides daily 
 ##  Architecture
 
 The app follows a simple modular structure:
-
+```
 lib/
 ┣ models/
 ┣ services/
 ┣ data/
 ┣ screens/
 ┗ main.dart
-
+```
 
 ### Core Logic
 
