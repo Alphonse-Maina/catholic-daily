@@ -78,9 +78,15 @@ no API dependency
 
  Getting Started
 1️⃣ Clone project
+```powershell
 git clone https://github.com/YOUR_USERNAME/catholic-daily.git
 cd catholic-daily
+```
 2️⃣ Install dependencies
+``` powershell
 flutter pub get
+```
 3️⃣ Run app
+```powershell
 flutter run
+```
