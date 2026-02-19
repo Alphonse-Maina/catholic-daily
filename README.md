@@ -79,7 +79,7 @@ no API dependency
  Getting Started
 1️⃣ Clone project
 ```powershell
-git clone https://github.com/YOUR_USERNAME/catholic-daily.git
+git clone https://github.com/Alphonse-Maina/catholic-daily.git
 cd catholic-daily
 ```
 2️⃣ Install dependencies
