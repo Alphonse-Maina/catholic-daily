@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/liturgical_service.dart';
 import '../models/liturgical_day.dart';
+import '../services/readings_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,6 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Map<String, String>? readings;
   LiturgicalDay? today;
   String saint = "Loading...";
 
@@ -24,7 +26,6 @@ class _HomePageState extends State<HomePage> {
   Future<void> loadData() async {
     final service = LiturgicalService();
     final now = DateTime.now();
-
     final lit = service.getDay(now);
 
     final jsonString = await rootBundle.loadString('lib/data/saints.json');
@@ -37,11 +38,15 @@ class _HomePageState extends State<HomePage> {
       orElse: () => null,
     );
 
+    final r = await ReadingsService().fetchTodayReadings();
+
     setState(() {
       today = lit;
       saint = found?["saint_name"] ?? "No saint today";
+      readings = r;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,18 +113,38 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-
             _card(
               bgColor,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   _SectionTitle("Mass Readings"),
-                  SizedBox(height: 8),
-                  Text(
-                    "Readings will load here",
-                    style: TextStyle(fontSize: 17),
-                  )
+                  const SizedBox(height: 8),
+                  if (readings == null)
+                    const Center(child: CircularProgressIndicator())
+                  else if (readings!.isEmpty)
+                    const Text("Unable to load readings")
+                  else
+                    ...readings!.entries.map(
+                          (e) => Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              e.key,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 17),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              e.value,
+                              style: const TextStyle(fontSize: 16, height: 1.4),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
                 ],
               ),
             ),

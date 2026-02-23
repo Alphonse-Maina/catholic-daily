@@ -12,7 +12,7 @@ void main() async {
   await Hive.initFlutter(); // initialize Hive
   await Hive.openBox('dailyReadings'); // box to store readings
   await NotificationService.init();
-  await NotificationService.showInstantTest();
+  //await NotificationService.showInstantTest();
 
   NotificationService.showDailyVerseNotification(
       verse: "John 3:16 - For God so loved the world...",
