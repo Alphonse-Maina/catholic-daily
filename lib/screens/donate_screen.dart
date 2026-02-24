@@ -9,14 +9,11 @@ class DonationScreen extends StatelessWidget {
 
   Future<void> openMpesa() async {
     final uri = Uri.parse("tel:*334#");
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    }
+    if (await canLaunchUrl(uri)) await launchUrl(uri);
   }
 
   Future<void> copyNumber(BuildContext context) async {
-    await Clipboard.setData(const ClipboardData(text: "0704668123"));
-
+    await Clipboard.setData(ClipboardData(text: mpesaNumber));
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text("Number copied ✔"),
@@ -26,94 +23,81 @@ class DonationScreen extends StatelessWidget {
   }
 
   Future<void> openPaypal() async {
-    final uri = Uri.parse("https://paypal.me/yourname"); // replace later
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    final uri = Uri.parse("https://paypal.me/alphonsemaina");
+
+    if (!await launchUrl(uri, mode: LaunchMode.platformDefault)) {
+      // fallback: show an error
+      print("Could not launch PayPal link");
     }
   }
+
+  final Color themeColor = Colors.deepPurple;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: themeColor.withOpacity(.15),
+      appBar: AppBar(
+        title: const Text("Donate"),
+        backgroundColor: Colors.deepPurple,
+        centerTitle: true,
+      ),
       body: Column(
         children: [
-          /// HEADER
+          // HEADER
           Container(
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(20, 60, 20, 30),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF2E7D32), Color(0xFF66BB6A)],
+                colors: [themeColor.withOpacity(.12), themeColor.withOpacity(.12)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(35),
-              ),
+              borderRadius: const BorderRadius.vertical(bottom: Radius.circular(35)),
             ),
-            child: const Column(
+            child: Column(
               children: [
-                Icon(Icons.favorite, color: Colors.white, size: 40),
-                SizedBox(height: 10),
-                Text(
+                const Icon(Icons.favorite, color: Colors.white, size: 40),
+                const SizedBox(height: 10),
+                const Text(
                   "Support Development",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
-                SizedBox(height: 6),
-                Text(
+                const SizedBox(height: 6),
+                const Text(
                   "Help keep this Catholic app growing 🙏",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white70),
-                )
+                ),
               ],
             ),
           ),
 
           const SizedBox(height: 30),
 
-          /// CARD
+          // M-PESA CARD
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Card(
               elevation: 8,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
               child: Padding(
                 padding: const EdgeInsets.all(22),
                 child: Column(
                   children: [
-                    const Icon(Icons.phone_android,
-                        size: 40, color: Colors.green),
-
+                    const Icon(Icons.phone_android, size: 40, color: Colors.green),
                     const SizedBox(height: 15),
-
                     const Text(
                       "Donate via M-Pesa",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-
                     const SizedBox(height: 10),
-
                     SelectableText(
                       mpesaNumber,
-                      style: const TextStyle(
-                        fontSize: 22,
-                        letterSpacing: 2,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: const TextStyle(fontSize: 22, letterSpacing: 2, fontWeight: FontWeight.bold),
                     ),
-
                     const SizedBox(height: 20),
-
-                    /// BUTTONS
                     Row(
                       children: [
                         Expanded(
@@ -122,9 +106,7 @@ class DonationScreen extends StatelessWidget {
                             label: const Text("Copy"),
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
-                              ),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                             ),
                             onPressed: () => copyNumber(context),
                           ),
@@ -137,9 +119,7 @@ class DonationScreen extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green,
                               padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
-                              ),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                             ),
                             onPressed: openMpesa,
                           ),
@@ -154,14 +134,12 @@ class DonationScreen extends StatelessWidget {
 
           const SizedBox(height: 25),
 
-          /// PAYPAL CARD
+          // PAYPAL CARD
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Card(
               elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               child: ListTile(
                 leading: const Icon(Icons.public, color: Colors.blue),
                 title: const Text("Donate via PayPal"),
@@ -174,14 +152,14 @@ class DonationScreen extends StatelessWidget {
 
           const Spacer(),
 
-          /// FOOTER
+          // FOOTER
           const Padding(
             padding: EdgeInsets.all(14),
             child: Text(
               "Thank you for supporting faith technology ❤️",
               style: TextStyle(color: Colors.grey),
             ),
-          )
+          ),
         ],
       ),
     );

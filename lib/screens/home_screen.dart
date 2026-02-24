@@ -16,17 +16,19 @@ class _HomePageState extends State<HomePage> {
   Map<String, String>? readings;
   LiturgicalDay? today;
   String saint = "Loading...";
+  late ReadingsService rservice;
 
   @override
   void initState() {
     super.initState();
+    rservice = ReadingsService();
     loadData();
   }
 
   Future<void> loadData() async {
-    final service = LiturgicalService();
+    final lservice = LiturgicalService();
     final now = DateTime.now();
-    final lit = service.getDay(now);
+    final lit = lservice.getDay(now);
 
     final jsonString = await rootBundle.loadString('lib/data/saints.json');
     final List saints = json.decode(jsonString);
@@ -37,13 +39,18 @@ class _HomePageState extends State<HomePage> {
           s["saint_day"] == now.day.toString(),
       orElse: () => null,
     );
+    readings = rservice.getTodayReadings();
 
-    final r = await ReadingsService().fetchTodayReadings();
-
+    if (readings == null) {
+      // If nothing stored, sync first
+      await rservice.syncNext30Days();
+      readings = rservice.getTodayReadings();
+    }
+    
     setState(() {
       today = lit;
       saint = found?["saint_name"] ?? "No saint today";
-      readings = r;
+
     });
   }
 
@@ -52,7 +59,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     if (today == null) {
       return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+        body: Center(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 40,),
+            Text("Please hold as we load Readings.")
+          ],
+        )),
       );
     }
 
@@ -75,30 +89,83 @@ class _HomePageState extends State<HomePage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _title("Today’s Liturgy"),
-                  const SizedBox(height: 10),
-                  _row("Season", today!.season),
-                  _row("Color", today!.color),
-                  _row("Celebration", today!.celebration),
+                  Row(
+                    children: [
+                      Icon(Icons.church, color: bgColor, size: 24),
+                      const SizedBox(width: 8),
+                      const Text(
+                        "Today’s Liturgy",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // SEASON
+                  _liturgyTile(
+                    icon: Icons.auto_awesome,
+                    label: "Season",
+                    value: today!.season,
+                    bgColor: bgColor,
+                  ),
+
+                  const SizedBox(height: 14),
+
+                  // COLOR
+                  _liturgyTile(
+                    icon: Icons.palette,
+                    label: "Liturgical Color",
+                    value: today!.color,
+                    bgColor: bgColor,
+                  ),
+
+                  const SizedBox(height: 14),
+
+                  // CELEBRATION
+                  _liturgyTile(
+                    icon: Icons.celebration,
+                    label: "Celebration",
+                    value: today!.celebration,
+                    bgColor: bgColor,
+                  ),
                 ],
               ),
             ),
-
+            const SizedBox(height: 4),
             _card(
               bgColor,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _title("Saint of the Day"),
-                  const SizedBox(height: 8),
-                  Text(
-                    saint,
-                    style: const TextStyle(fontSize: 18),
-                  )
-                ],
-              ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _title("Saint of the Day"),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 28,
+                          backgroundColor: bgColor.withOpacity(.2),
+                          child: Icon(Icons.person, size: 28, color: bgColor),
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Text(
+                            saint,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                )
             ),
-
+            const SizedBox(height: 4),
             _card(
               bgColor,
               Column(
@@ -107,12 +174,13 @@ class _HomePageState extends State<HomePage> {
                   _SectionTitle("Daily Verse"),
                   SizedBox(height: 8),
                   Text(
-                    "Verse will appear here",
+                    "For God so loved the world, that He gave His only son, that whoever believes in Him may not perish, but have eternal Salvation.",
                     style: TextStyle(fontSize: 17),
                   )
                 ],
               ),
             ),
+            const SizedBox(height: 4),
             _card(
               bgColor,
               Column(
@@ -121,25 +189,53 @@ class _HomePageState extends State<HomePage> {
                   _SectionTitle("Mass Readings"),
                   const SizedBox(height: 8),
                   if (readings == null)
-                    const Center(child: CircularProgressIndicator())
+                    const Center(child: Column(
+                      children: [
+                        CircularProgressIndicator(),
+                        SizedBox(height: 20),
+                        Text("Please wait while we load Readings ..."),
+                        SizedBox(height: 10,),
+                        Text("Ensure you are connected to the internet")
+                      ],
+                    ))
                   else if (readings!.isEmpty)
                     const Text("Unable to load readings")
                   else
                     ...readings!.entries.map(
-                          (e) => Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
+                          (e) => Container(
+                        margin: const EdgeInsets.only(bottom: 18),
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade50,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: bgColor.withOpacity(.25)),
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               e.key,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 17),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: bgColor,
+                                letterSpacing: .5,
+                              ),
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: 6),
+                            Container(
+                              height: 2,
+                              width: 40,
+                              color: bgColor.withOpacity(.5),
+                            ),
+                            const SizedBox(height: 10),
                             Text(
                               e.value,
-                              style: const TextStyle(fontSize: 16, height: 1.4),
+                              style: const TextStyle(
+                                fontSize: 17,
+                                height: 1.6,
+                                letterSpacing: .2,
+                              ),
                             ),
                           ],
                         ),
@@ -195,6 +291,52 @@ class _HomePageState extends State<HomePage> {
       style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
     );
   }
+}
+Widget _liturgyTile({
+  required IconData icon,
+  required String label,
+  required String value,
+  required Color bgColor,
+}) {
+  return Container(
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      color: Colors.grey.shade50,
+      borderRadius: BorderRadius.circular(14),
+      border: Border.all(color: bgColor.withOpacity(.25)),
+    ),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, color: bgColor, size: 22),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey,
+                  letterSpacing: .5,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 class _SectionTitle extends StatelessWidget {

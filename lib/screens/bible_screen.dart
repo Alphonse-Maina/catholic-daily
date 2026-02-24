@@ -48,30 +48,85 @@ class _BibleScreenState extends State<BibleScreen> {
 
     return Scaffold(
       backgroundColor: bgColor.withOpacity(.12),
-      appBar: AppBar(title: const Text("Holy Bible"), backgroundColor: bgColor,),
+      appBar: AppBar(
+        title: const Text("Holy Bible"),
+        backgroundColor: bgColor,
+        centerTitle: true,
+        elevation: 0,
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _sectionTile("Old Testament", oldTestament, bgColor),
-          _sectionTile("New Testament", newTestament, bgColor),
+          _bibleSectionCard("Old Testament", oldTestament, bgColor),
+          _bibleSectionCard("New Testament", newTestament, bgColor),
         ],
       ),
     );
   }
-
-  Widget _sectionTile(String title, List<Map<String, dynamic>> data, color) {
-    return Card(
-      child: ListTile(
-        title: Text(title, style: const TextStyle(fontSize: 20)),
-        trailing: const Icon(Icons.arrow_forward_ios),
+  Widget _bibleSectionCard(
+      String title, List<Map<String, dynamic>> books, Color color) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: color.withOpacity(0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+        border: Border.all(color: color.withOpacity(0.2)),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => BookListScreen(title: title, books: data, bgColor: color),
+              builder: (_) => BookListScreen(
+                title: title,
+                books: books,
+                bgColor: color,
+              ),
             ),
           );
         },
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: color.withOpacity(0.15),
+              ),
+              child: Icon(
+                Icons.book,
+                color: color,
+                size: 28,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 18,
+              color: color,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:catholic_daily/screens/bible_screen.dart';
 import 'package:catholic_daily/screens/prayers_screen.dart';
 import 'package:catholic_daily/screens/rosary_screen.dart';
 import 'package:catholic_daily/screens/settings_screen.dart';
+import 'package:catholic_daily/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'notifications/notification_service.dart';
 import 'screens/home_screen.dart';
@@ -12,7 +13,6 @@ void main() async {
   await Hive.initFlutter(); // initialize Hive
   await Hive.openBox('dailyReadings'); // box to store readings
   await NotificationService.init();
-  //await NotificationService.showInstantTest();
 
   NotificationService.showDailyVerseNotification(
       verse: "John 3:16 - For God so loved the world...",
@@ -23,18 +23,22 @@ void main() async {
 }
 
 class CatholicDailyApp extends StatelessWidget {
+  const CatholicDailyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Catholic Daily',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: MainScreen(),
+      home: SplashScreen(),
     );
   }
 }
 
 class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
@@ -44,10 +48,10 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     HomePage(),
-    RosaryScreen(), // Rosary
-    BibleScreen(), // Bible
-    PrayersPage(), // Prayers
-    SettingsScreen(), // Settings
+    RosaryScreen(),
+    BibleScreen(),
+    PrayersPage(),
+    SettingsScreen(),
   ];
 
   @override

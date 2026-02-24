@@ -42,47 +42,123 @@ class _RosaryScreenState extends State<RosaryScreen> {
     return Scaffold(
       backgroundColor: themeColor.withOpacity(.12),
       appBar: AppBar(
-        title: Text("The Mysteries of the Rosary"),
+        title: const Text("The Mysteries of the Rosary"),
         backgroundColor: themeColor,
         centerTitle: true,
+        elevation: 0,
       ),
-    body: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Expanded(
-          child: ListView(
-            children: allMysteries.keys.map((key) {
-              return ListTile(
-                title: Text("The ${key[0].toUpperCase()}${key.substring(1)} Mysteries"),
-                subtitle: Text("Has ${allMysteries[key]!.length} mysteries"),
-                onTap: (){
-                  Navigator.push(
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: allMysteries.keys.map((key) {
+                final title = "The ${key[0].toUpperCase()}${key.substring(1)} Mysteries";
+
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => ListMysteriesScreen(
-                            title: key.toString(),
-                            allMysteries: allMysteries[key]!,
-                            color: themeColor,
-                          )
+                        builder: (_) => ListMysteriesScreen(
+                          title: key,
+                          allMysteries: allMysteries[key]!,
+                          color: themeColor,
+                        ),
                       ),
-                  );
-              }
-              );
-            }).toList(),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 16),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                      boxShadow: [
+                        BoxShadow(
+                          color: themeColor.withOpacity(.2),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        )
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: themeColor.withOpacity(.15),
+                          ),
+                          child: Icon(
+                            Icons.book,
+                            color: themeColor,
+                            size: 28,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                title,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                "Tap to meditate and pray",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey.shade700,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 18,
+                          color: themeColor,
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
           ),
-        ),
-        SizedBox( height: 20,),
-        ElevatedButton(
-            onPressed: (){
-              Navigator.push(context,
-              MaterialPageRoute(builder: (_)=> PrayWithMe()),
-              );
-            },
-            child: Text("Pray Today's Rosary")
-        )
-      ],
-    ),
 
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            child: ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const PrayWithMe()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: themeColor.computeLuminance()>0.5? Colors.black : Colors.white ,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+              icon: const Icon(Icons.self_improvement, size: 20),
+              label: const Text(
+                "Pray Today's Rosary",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -13,6 +13,8 @@ class _PrayersPageState extends State<PrayersPage> {
   Map<String, dynamic>? prayersData;
   bool loading = true;
 
+  final Color themeColor = Colors.deepPurple;
+
   @override
   void initState() {
     super.initState();
@@ -32,39 +34,57 @@ class _PrayersPageState extends State<PrayersPage> {
   @override
   Widget build(BuildContext context) {
     if (loading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+      return Scaffold(
+        backgroundColor: themeColor.withOpacity(.12),
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 
     return Scaffold(
+      backgroundColor: themeColor.withOpacity(.12),
       appBar: AppBar(
         title: const Text('Catholic Prayers'),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: themeColor,
+        centerTitle: true,
+        elevation: 0,
       ),
       body: ListView.builder(
+        padding: const EdgeInsets.all(16),
         itemCount: prayersData!['prayers'].length,
         itemBuilder: (context, index) {
           final category = prayersData!['prayers'][index];
-          return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+
+          return Container(
+            margin: const EdgeInsets.only(bottom: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: themeColor.withOpacity(.15),
+                  blurRadius: 6,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+              border: Border.all(color: themeColor.withOpacity(.15)),
+            ),
             child: ExpansionTile(
+              tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              collapsedBackgroundColor: Colors.white,
+              iconColor: themeColor,
+              collapsedIconColor: themeColor,
               title: Text(
                 category['category'],
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple,
+                  color: Colors.black,
                 ),
               ),
               children: List.generate(category['items'].length, (i) {
                 final prayer = category['items'][i];
-                return ListTile(
-                  title: Text(
-                    prayer['title'],
-                    style: const TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                return InkWell(
+                  borderRadius: BorderRadius.circular(12),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -73,6 +93,29 @@ class _PrayersPageState extends State<PrayersPage> {
                       ),
                     );
                   },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: themeColor.withOpacity(.05),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            prayer['title'],
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        Icon(Icons.arrow_forward_ios, size: 16, color: themeColor),
+                      ],
+                    ),
+                  ),
                 );
               }),
             ),
@@ -82,24 +125,33 @@ class _PrayersPageState extends State<PrayersPage> {
     );
   }
 }
-
 class PrayerDetailPage extends StatelessWidget {
   final Map<String, dynamic> prayer;
   const PrayerDetailPage({Key? key, required this.prayer}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Color themeColor = Colors.deepPurple;
+
     return Scaffold(
+      backgroundColor: themeColor.withOpacity(.12),
       appBar: AppBar(
         title: Text(prayer['title']),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: themeColor,
+        centerTitle: true,
+        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Text(
             prayer['text'],
-            style: const TextStyle(fontSize: 18, height: 1.5),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              height: 1.6,
+              letterSpacing: 0.3,
+            ),
           ),
         ),
       ),
