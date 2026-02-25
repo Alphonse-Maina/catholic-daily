@@ -3,6 +3,7 @@ import 'package:catholic_daily/screens/prayers_screen.dart';
 import 'package:catholic_daily/screens/rosary_screen.dart';
 import 'package:catholic_daily/screens/settings_screen.dart';
 import 'package:catholic_daily/screens/splash_screen.dart';
+import 'package:catholic_daily/services/settings_service.dart';
 import 'package:flutter/material.dart';
 import 'notifications/notification_service.dart';
 import 'screens/home_screen.dart';
@@ -10,14 +11,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter(); // initialize Hive
-  await Hive.openBox('dailyReadings'); // box to store readings
-  await NotificationService.init();
 
-  NotificationService.showDailyVerseNotification(
-      verse: "John 3:16 - For God so loved the world...",
-      hour: 10,
-      minute: 0);
+  await Hive.initFlutter();
+  await Hive.openBox('dailyReadings');
+
+  await NotificationService.init();
 
   runApp(CatholicDailyApp());
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../notifications/notification_service.dart';
 import '../services/settings_service.dart';
 import 'about_screen.dart';
 import 'donate_screen.dart';
@@ -29,6 +30,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void toggleNotifications(bool val) async {
     await SettingsService.setNotifications(val);
+
+    if (val) {
+      final now = TimeOfDay.now();
+      final testTime = DateTime.now().add(const Duration(minutes: 1));
+      await NotificationService.scheduleNextDailyVerse(
+        // hour: 8,
+        // minute: 0,
+        hour: testTime.hour,
+        minute: testTime.minute,
+      );
+    } else {
+      await NotificationService.cancelDailyVerse();
+    }
+
     setState(() => notifications = val);
   }
 

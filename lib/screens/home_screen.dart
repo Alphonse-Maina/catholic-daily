@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../services/daily_verse_service.dart';
 import '../services/liturgical_service.dart';
 import '../models/liturgical_day.dart';
 import '../services/readings_service.dart';
@@ -17,6 +18,8 @@ class _HomePageState extends State<HomePage> {
   LiturgicalDay? today;
   String saint = "Loading...";
   late ReadingsService rservice;
+  String verseText = "";
+  String verseReference = "";
 
   @override
   void initState() {
@@ -29,7 +32,7 @@ class _HomePageState extends State<HomePage> {
     final lservice = LiturgicalService();
     final now = DateTime.now();
     final lit = lservice.getDay(now);
-
+    final verse = await DailyVerseService.getTodayVerse();
     final jsonString = await rootBundle.loadString('lib/data/saints.json');
     final List saints = json.decode(jsonString);
 
@@ -50,6 +53,8 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       today = lit;
       saint = found?["saint_name"] ?? "No saint today";
+      verseText = verse["text"]!;
+      verseReference = verse["reference"]!;
 
     });
   }
@@ -57,20 +62,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (today == null) {
-      return const Scaffold(
-        body: Center(child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 40,),
-            Text("Please hold as we load Readings.")
-          ],
-        )),
-      );
-    }
 
-    final Color bgColor = today!.colorValue;
+    final Color bgColor = today?.colorValue ?? Colors.blue;
 
     return Scaffold(
       backgroundColor: bgColor.withOpacity(.12),
@@ -109,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                   _liturgyTile(
                     icon: Icons.auto_awesome,
                     label: "Season",
-                    value: today!.season,
+                    value: today?.season ?? "loading ...",
                     bgColor: bgColor,
                   ),
 
@@ -119,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                   _liturgyTile(
                     icon: Icons.palette,
                     label: "Liturgical Color",
-                    value: today!.color,
+                    value: today?.color ?? "loading ...",
                     bgColor: bgColor,
                   ),
 
@@ -129,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                   _liturgyTile(
                     icon: Icons.celebration,
                     label: "Celebration",
-                    value: today!.celebration,
+                    value: today?.celebration ?? "loading ...",
                     bgColor: bgColor,
                   ),
                 ],
@@ -170,13 +163,47 @@ class _HomePageState extends State<HomePage> {
               bgColor,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  _SectionTitle("Daily Verse"),
-                  SizedBox(height: 8),
-                  Text(
-                    "For God so loved the world, that He gave His only son, that whoever believes in Him may not perish, but have eternal Salvation.",
-                    style: TextStyle(fontSize: 17),
-                  )
+                children: [
+                  const _SectionTitle("Daily Verse"),
+                  const SizedBox(height: 12),
+
+                  Container(
+                    padding: const EdgeInsets.all(18),
+                    decoration: BoxDecoration(
+                      color: bgColor.withOpacity(.08),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Icon(Icons.auto_stories, size: 28),
+                        const SizedBox(height: 12),
+
+                        Text(
+                          verseText, // <-- dynamic
+                          style: const TextStyle(
+                            fontSize: 17,
+                            height: 1.5,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+
+                        const SizedBox(height: 14),
+
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Text(
+                            verseReference, // <-- dynamic
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: bgColor,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -194,8 +221,10 @@ class _HomePageState extends State<HomePage> {
                         CircularProgressIndicator(),
                         SizedBox(height: 20),
                         Text("Please wait while we load Readings ..."),
-                        SizedBox(height: 10,),
-                        Text("Ensure you are connected to the internet")
+                        SizedBox(height: 10),
+                        Text("Ensure you are connected to the internet."),
+                        SizedBox(height: 10),
+                        Text("This only happens on the first day of installation. Kindly bare with us.")
                       ],
                     ))
                   else if (readings!.isEmpty)
