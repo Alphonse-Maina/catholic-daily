@@ -29,10 +29,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void toggleNotifications(bool val) async {
+    print("Toggle pressed: $val");
     await SettingsService.setNotifications(val);
 
     if (val) {
-      final now = TimeOfDay.now();
+      print("Scheduling notification...");
       final testTime = DateTime.now().add(const Duration(minutes: 1));
       await NotificationService.scheduleNextDailyVerse(
         // hour: 8,
@@ -40,7 +41,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         hour: testTime.hour,
         minute: testTime.minute,
       );
+      print("Schedule function finished.");
     } else {
+      print("Cancelling notification...");
       await NotificationService.cancelDailyVerse();
     }
 

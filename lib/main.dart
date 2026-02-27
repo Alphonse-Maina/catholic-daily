@@ -16,6 +16,15 @@ void main() async {
   await Hive.openBox('dailyReadings');
 
   await NotificationService.init();
+  final enabled = await SettingsService.notificationsEnabled();
+
+  if (enabled) {
+    final now = DateTime.now().add(const Duration(minutes: 1)); // test
+    await NotificationService.scheduleNextDailyVerse(
+      hour: now.hour,
+      minute: now.minute,
+    );
+    print("main scheduled notifications for 1 minute from now");  }
 
   runApp(CatholicDailyApp());
 }

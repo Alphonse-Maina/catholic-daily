@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   LiturgicalDay? today;
   String saint = "Loading...";
   late ReadingsService rservice;
-  String verseText = "";
+  String verseText = "Loading...";
   String verseReference = "";
 
   @override
@@ -242,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            SelectableText(
                               e.key,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -258,7 +258,7 @@ class _HomePageState extends State<HomePage> {
                               color: bgColor.withOpacity(.5),
                             ),
                             const SizedBox(height: 10),
-                            Text(
+                            SelectableText(
                               e.value,
                               style: const TextStyle(
                                 fontSize: 17,
