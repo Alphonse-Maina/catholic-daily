@@ -1,9 +1,9 @@
+import 'package:catholic_daily/constants/colors.dart';
 import 'package:catholic_daily/screens/pray_with_me.dart';
 import 'package:flutter/material.dart';
 import '../data/rosary_loader.dart';
 import '../models/liturgical_day.dart';
 import '../models/mystery.dart';
-import '../services/liturgical_service.dart';
 import 'list_mysteries_screen.dart';
 
 class RosaryScreen extends StatefulWidget {
@@ -15,7 +15,7 @@ class RosaryScreen extends StatefulWidget {
 
 class _RosaryScreenState extends State<RosaryScreen> {
   LiturgicalDay? today;
-  Color themeColor = Colors.blue;
+  Color themeColor = AppColors.appBarBackground;
   Map <String, List<Mystery>> allMysteries = {};
 
   @override
@@ -26,21 +26,16 @@ class _RosaryScreenState extends State<RosaryScreen> {
 
   Future<void> _loadMysteries() async {
     final mysteriesMap = await RosaryLoader.loadAllMysteries();
-    final service = LiturgicalService();
-    final now = DateTime.now();
-
-    final lit = service.getDay(now);
 
     setState(() {
       allMysteries = mysteriesMap;
-      themeColor = lit!.colorValue;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: themeColor.withOpacity(.12),
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         title: const Text("The Mysteries of the Rosary"),
         backgroundColor: themeColor,
@@ -145,7 +140,7 @@ class _RosaryScreenState extends State<RosaryScreen> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: themeColor.computeLuminance()>0.5? Colors.black : Colors.white ,
-                padding: const EdgeInsets.symmetric(vertical: 14),
+                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
                 ),

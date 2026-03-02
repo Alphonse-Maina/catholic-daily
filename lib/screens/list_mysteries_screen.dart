@@ -23,7 +23,7 @@ class _ListMysteriesScreenState extends State<ListMysteriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: widget.color.withOpacity(.12),
+      backgroundColor: Colors.cyan[200],
       appBar: AppBar(
         title: Text("The ${widget.title[0].toUpperCase()}${widget.title.substring(1)} Mysteries"),
         centerTitle: true,
@@ -44,16 +44,16 @@ class _ListMysteriesScreenState extends State<ListMysteriesScreen> {
             child: InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => PrayerScreen(
-                      mysteries: widget.allMysteries,
-                      themeColor: widget.color,
-                      reset: true,
-                    ),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (_) => PrayerScreen(
+                //       mysteries: widget.allMysteries,
+                //       themeColor: widget.color,
+                //       reset: true,
+                //     ),
+                //   ),
+                // );
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -63,8 +63,8 @@ class _ListMysteriesScreenState extends State<ListMysteriesScreen> {
                         top: Radius.circular(12)),
                     child: Image.asset(
                       mystery.imageAsset,
-                      height: 300,
-                      fit: BoxFit.cover,
+                      height: 500,
+                      fit: BoxFit.fill,
                     ),
                   ),
                   Padding(

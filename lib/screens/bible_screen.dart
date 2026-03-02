@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../constants/colors.dart';
 import '../models/liturgical_day.dart';
 import '../services/bible_database.dart';
 import '../services/liturgical_service.dart';
@@ -44,13 +45,13 @@ class _BibleScreenState extends State<BibleScreen> {
 
     final oldTestament = books.where((b) => b["id"] <= 39).toList();
     final newTestament = books.where((b) => b["id"] > 39).toList();
-    final Color bgColor = today!.colorValue;
+    final Color bgColor = AppColors.appBarBackground;
 
     return Scaffold(
-      backgroundColor: bgColor.withOpacity(.12),
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
+        backgroundColor: AppColors.appBarBackground,
         title: const Text("Holy Bible"),
-        backgroundColor: bgColor,
         centerTitle: true,
         elevation: 0,
       ),

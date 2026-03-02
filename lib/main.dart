@@ -1,6 +1,6 @@
 import 'package:catholic_daily/screens/bible_screen.dart';
 import 'package:catholic_daily/screens/prayers_screen.dart';
-import 'package:catholic_daily/screens/rosary_screen.dart';
+import 'package:catholic_daily/screens/rosary_hub_screen.dart';
 import 'package:catholic_daily/screens/settings_screen.dart';
 import 'package:catholic_daily/screens/splash_screen.dart';
 import 'package:catholic_daily/services/settings_service.dart';
@@ -55,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     HomePage(),
-    RosaryScreen(),
+    RosaryHubScreen(),
     BibleScreen(),
     PrayersPage(),
     SettingsScreen(),

@@ -1,129 +1,129 @@
 {
   "joyful": [
     {
-      "title": "Annunciation",
+      "title": "The Annunciation",
       "image": "assets/rosary/joyful_annunciation.jpg",
-      "shortDescription": "Angel Gabriel visits Mary to announce she will bear Jesus.",
+      "shortDescription": "The angel Gabriel announces to Mary that she will conceive and bear the Son of God. Mary responds with faith: “Behold, I am the handmaid of the Lord; let it be done to me according to your word.”",
       "bibleReference": "Luke 1:26-38"
     },
     {
-      "title": "Visitation",
+      "title": "The Visitation",
       "image": "assets/rosary/joyful_visitation.webp",
-      "shortDescription": "Mary visits Elizabeth who is pregnant with John the Baptist.",
+      "shortDescription": "Mary visits her cousin Elizabeth, who is pregnant with John the Baptist. Upon hearing Mary’s greeting, Elizabeth’s child leaps in her womb, and she proclaims Mary blessed.",
       "bibleReference": "Luke 1:39-56"
     },
     {
-      "title": "Nativity",
+      "title": "The Nativity (Birth of Jesus)",
       "image": "assets/rosary/joyful_nativity.webp",
-      "shortDescription": "Jesus is born in Bethlehem.",
+      "shortDescription": "Jesus is born in a stable in Bethlehem. Mary wraps Him in swaddling clothes and lays Him in a manger, as there is no room for them in the inn.",
       "bibleReference": "Luke 2:1-20"
     },
     {
-      "title": "Presentation",
+      "title": "The Presentation in the Temple",
       "image": "assets/rosary/joyful_presentation.webp",
-      "shortDescription": "Mary and Joseph present Jesus in the Temple.",
+      "shortDescription": "Mary and Joseph present Jesus at the Temple in Jerusalem, in accordance with Jewish law. The prophet Simeon prophesies that Jesus will be a “sign of contradiction,” and a sword will pierce Mary’s soul.",
       "bibleReference": "Luke 2:22-38"
     },
     {
-      "title": "Finding in the Temple",
+      "title": "The Finding of Jesus in the Temple",
       "image": "assets/rosary/joyful_finding_temple.webp",
-      "shortDescription": "Mary and Joseph find young Jesus teaching in the Temple.",
+      "shortDescription": "At age twelve, Jesus is found among the teachers in the Temple, discussing Scripture. He tells His parents, “Did you not know that I must be in my Father’s house?”",
       "bibleReference": "Luke 2:41-52"
     }
   ],
   "sorrowful": [
     {
-      "title": "Agony in the Garden",
+      "title": "The Agony in the Garden",
       "image": "assets/rosary/sorrowful_agony.webp",
-      "shortDescription": "Jesus prays in the Garden of Gethsemane before His arrest.",
+      "shortDescription": "Jesus prays in Gethsemane, asking the Father to take the cup of suffering from Him, yet submitting to God’s will. ",
       "bibleReference": "Matthew 26:36-46"
     },
     {
-      "title": "Scourging at the Pillar",
+      "title": "The Scourging at the Pillar",
       "image": "assets/rosary/sorrowful_scourging.webp",
-      "shortDescription": "Jesus is whipped before His crucifixion.",
+      "shortDescription": "Jesus is brutally whipped, enduring immense physical pain in preparation for crucifixion.",
       "bibleReference": "John 19:1"
     },
     {
-      "title": "Crowning with Thorns",
+      "title": "The Crowning with Thorns",
       "image": "assets/rosary/sorrowful_crowning.webp",
-      "shortDescription": "Jesus is mocked and crowned with thorns.",
+      "shortDescription": "Mocked as a king, Jesus is crowned with thorns, spat upon, and ridiculed by soldiers. ",
       "bibleReference": "Matthew 27:27-31"
     },
     {
-      "title": "Carrying of the Cross",
+      "title": "The Carrying of the Cross",
       "image": "assets/rosary/sorrowful_cross.webp",
-      "shortDescription": "Jesus carries His cross to Golgotha.",
+      "shortDescription": " Jesus, weakened, carries His cross to Calvary, eventually aided by Simon of Cyrene.",
       "bibleReference": "John 19:17"
     },
     {
-      "title": "Crucifixion",
+      "title": "The Crucifixion and Death of Jesus",
       "image": "assets/rosary/sorrowful_crucifixion.webp",
-      "shortDescription": "Jesus dies on the Cross for our salvation.",
+      "shortDescription": "Jesus is nailed to the cross, dies for humanity’s sins, and commends His spirit into the Father’s hands. ",
       "bibleReference": "Luke 23:33-46"
     }
   ],
   "glorious": [
     {
-      "title": "Resurrection",
+      "title": "The Resurrection of Jesus Christ",
       "image": "assets/rosary/glorious_resurrection.webp",
-      "shortDescription": "Jesus rises from the dead.",
+      "shortDescription": "esus rises from the dead on Easter Sunday, fulfilling His promise and proving His divinity. The empty tomb and angelic message — \"He is not here, but has risen\" — affirm the victory over sin and death.",
       "bibleReference": "Matthew 28:1-10"
     },
     {
-      "title": "Ascension",
+      "title": "The Ascension of Jesus into Heaven",
       "image": "assets/rosary/glorious_ascension.webp",
-      "shortDescription": "Jesus ascends to Heaven.",
+      "shortDescription": "Forty days after His resurrection, Jesus ascends bodily into heaven, taking His seat at the right hand of God. This marks the completion of His earthly mission and the beginning of the Church’s mission.",
       "bibleReference": "Acts 1:6-11"
     },
     {
-      "title": "Descent of the Holy Spirit",
+      "title": "The Descent of the Holy Spirit at Pentecost",
       "image": "assets/rosary/glorious_descent.webp",
-      "shortDescription": "Holy Spirit comes upon the Apostles.",
+      "shortDescription": "On the day of Pentecost, the Holy Spirit descends upon the apostles in tongues of fire, empowering them to preach the Gospel boldly. This event marks the birth of the Church.",
       "bibleReference": "Acts 2:1-4"
     },
     {
-      "title": "Assumption",
+      "title": "The Assumption of the Blessed Virgin Mary",
       "image": "assets/rosary/glorious_assumption.webp",
-      "shortDescription": "Mary is assumed into Heaven.",
+      "shortDescription": "Mary, the Mother of God, is taken body and soul into heaven at the end of her earthly life, a privilege due to her sinless nature and unique role in salvation history.",
       "bibleReference": "Revelation 12:1"
     },
     {
-      "title": "Coronation of Mary",
+      "title": "The Coronation of Mary as Queen of Heaven and Earth",
       "image": "assets/rosary/glorious_coronation.webp",
-      "shortDescription": "Mary is crowned Queen of Heaven.",
+      "shortDescription": "Mary is crowned Queen of Heaven and Earth, fulfilling the vision of Revelation 12:1 — \"a woman clothed with the sun, with the moon under her feet, and on her head a crown of twelve stars.\"",
       "bibleReference": "Revelation 12:1-5"
     }
   ],
   "luminous": [
     {
-      "title": "Baptism of Jesus",
+      "title": "The Baptism of Jesus in the Jordan",
       "image": "assets/rosary/luminous_baptism.webp",
-      "shortDescription": "Jesus is baptized in the Jordan River by John.",
+      "shortDescription": "Marking the beginning of his public life, where the Holy Spirit descended and the Father declared, “This is my beloved Son.”",
       "bibleReference": "Matthew 3:13-17"
     },
     {
-      "title": "Wedding at Cana",
+      "title": "The Wedding at Cana",
       "image": "assets/rosary/luminous_cana.webp",
-      "shortDescription": "Jesus performs His first miracle turning water into wine.",
+      "shortDescription": "Jesus’ first public miracle, turning water into wine, revealing his glory and affirming the dignity of marriage.",
       "bibleReference": "John 2:1-11"
     },
     {
-      "title": "Proclamation of the Kingdom",
+      "title": "The Proclamation of the Kingdom of God",
       "image": "assets/rosary/luminous_proclamation.webp",
-      "shortDescription": "Jesus proclaims the Kingdom of God and calls to conversion.",
+      "shortDescription": "Jesus calling people to repent and believe in the Gospel, announcing the nearness of God’s reign.",
       "bibleReference": "Mark 1:14-15"
     },
     {
-      "title": "Transfiguration",
+      "title": "The Transfiguration",
       "image": "assets/rosary/luminous_transfiguration.webp",
-      "shortDescription": "Jesus is transfigured on the mountain before Peter, James, and John.",
+      "shortDescription": "Jesus’ face shining like the sun and speaking with Moses and Elijah, revealing his divine glory to Peter, James, and John.",
       "bibleReference": "Luke 9:28-36"
     },
     {
-      "title": "Institution of the Eucharist",
+      "title": "The Institution of the Eucharist",
       "image": "assets/rosary/luminous_institution.webp",
-      "shortDescription": "Jesus gives us the Eucharist at the Last Supper.",
+      "shortDescription": "At the Last Supper, Jesus transformed bread and wine into his Body and Blood, establishing the central mystery of the Church.",
       "bibleReference": "Luke 22:14-20"
     }
   ]

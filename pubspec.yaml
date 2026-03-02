@@ -81,6 +81,14 @@ flutter:
      - lib/data/prayers.json
      - lib/data/saints.json
      - lib/data/daily_verses.json
+     - lib/data/seven_sorrows.json
+     - lib/data/litany_of_seven_sorrows.json
+     - lib/data/litany_of_our_lady.json
+     - lib/data/litany_of_st_joseph.json
+     - lib/data/litany_of_st_michael.json
+     - lib/data/way_of_the_cross.json
+     - assets/wayOfTheCross/
+     - assets/images/
      - assets/rosary/
      - assets/Bible/KJV.db
      - assets/app/vexaryn_logo.png
