@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../constants/colors.dart';
 import '../notifications/notification_service.dart';
 import '../services/settings_service.dart';
 import 'about_screen.dart';
@@ -15,7 +16,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool notifications = true;
-  final Color themeColor = Colors.deepPurple;
+  final Color themeColor = AppColors.appBarBackground;
 
   @override
   void initState() {
@@ -29,11 +30,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void toggleNotifications(bool val) async {
-    print("Toggle pressed: $val");
     await SettingsService.setNotifications(val);
 
     if (val) {
-      print("Scheduling notification...");
       final testTime = DateTime.now().add(const Duration(minutes: 1));
       await NotificationService.scheduleNextDailyVerse(
         // hour: 8,
@@ -41,9 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         hour: testTime.hour,
         minute: testTime.minute,
       );
-      print("Schedule function finished.");
     } else {
-      print("Cancelling notification...");
       await NotificationService.cancelDailyVerse();
     }
 
@@ -54,10 +51,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: themeColor.withOpacity(.12),
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
+        backgroundColor: AppColors.appBarBackground,
         title: const Text("Settings"),
-        backgroundColor: themeColor,
         centerTitle: true,
       ),
       body: ListView(

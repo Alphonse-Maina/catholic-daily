@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../constants/colors.dart';
+
 class DonationScreen extends StatelessWidget {
   const DonationScreen({super.key});
 
@@ -36,10 +38,10 @@ class DonationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: themeColor.withOpacity(.15),
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
+        backgroundColor: AppColors.appBarBackground,
         title: const Text("Donate"),
-        backgroundColor: Colors.deepPurple,
         centerTitle: true,
       ),
       body: Column(
@@ -58,17 +60,16 @@ class DonationScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                const Icon(Icons.favorite, color: Colors.white, size: 40),
+                const Icon(Icons.favorite, color: Colors.red, size: 40),
                 const SizedBox(height: 10),
                 const Text(
                   "Support Development",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 6),
                 const Text(
                   "Help keep this Catholic app growing 🙏",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white70),
                 ),
               ],
             ),

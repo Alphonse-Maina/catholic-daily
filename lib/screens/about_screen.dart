@@ -1,3 +1,4 @@
+import 'package:catholic_daily/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class AboutScreen extends StatelessWidget {
@@ -6,10 +7,10 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         title: const Text("About"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: AppColors.appBarBackground,
         centerTitle: true,
       ),
       body: Padding(

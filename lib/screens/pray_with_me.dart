@@ -1,3 +1,4 @@
+import 'package:catholic_daily/constants/colors.dart';
 import 'package:catholic_daily/screens/prayer_screen.dart';
 import 'package:flutter/material.dart';
 import '../data/rosary_loader.dart';
@@ -15,7 +16,7 @@ class PrayWithMe extends StatefulWidget {
 class _PrayWithMeState extends State<PrayWithMe> {
   LiturgicalDay? today;
   List<Mystery> todayMysteries = [];
-  Color themeColor = Colors.blue;
+  Color themeColor = AppColors.appBarBackground;
 
   @override
   void initState() {
@@ -37,9 +38,10 @@ class _PrayWithMeState extends State<PrayWithMe> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         title: Text("Today's Mysteries"),
-        backgroundColor: themeColor,
+        backgroundColor: AppColors.appBarBackground,
       ),
       body: todayMysteries.isEmpty
           ? const Center(child: CircularProgressIndicator())

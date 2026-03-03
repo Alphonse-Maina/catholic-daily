@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
+import '../constants/colors.dart';
+
 class PrayersPage extends StatefulWidget {
   const PrayersPage({Key? key}) : super(key: key);
 
@@ -13,7 +15,7 @@ class _PrayersPageState extends State<PrayersPage> {
   Map<String, dynamic>? prayersData;
   bool loading = true;
 
-  final Color themeColor = Colors.deepPurple;
+  final Color themeColor = AppColors.appBarBackground;
 
   @override
   void initState() {
@@ -35,16 +37,16 @@ class _PrayersPageState extends State<PrayersPage> {
   Widget build(BuildContext context) {
     if (loading) {
       return Scaffold(
-        backgroundColor: themeColor.withOpacity(.12),
+        backgroundColor: AppColors.scaffoldBackground,
         body: const Center(child: CircularProgressIndicator()),
       );
     }
 
     return Scaffold(
-      backgroundColor: themeColor.withOpacity(.12),
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
+        backgroundColor: AppColors.appBarBackground,
         title: const Text('Catholic Prayers'),
-        backgroundColor: themeColor,
         centerTitle: true,
         elevation: 0,
       ),
@@ -134,10 +136,10 @@ class PrayerDetailPage extends StatelessWidget {
     final Color themeColor = Colors.deepPurple;
 
     return Scaffold(
-      backgroundColor: themeColor.withOpacity(.12),
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
+        backgroundColor: AppColors.appBarBackground,
         title: Text(prayer['title']),
-        backgroundColor: themeColor,
         centerTitle: true,
         elevation: 0,
       ),
@@ -147,7 +149,6 @@ class PrayerDetailPage extends StatelessWidget {
           child: Text(
             prayer['text'],
             style: const TextStyle(
-              color: Colors.white,
               fontSize: 18,
               height: 1.6,
               letterSpacing: 0.3,
