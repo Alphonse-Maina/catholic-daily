@@ -3,17 +3,18 @@ import 'package:catholic_daily/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 import '../models/station.dart'; // For loading JSON from assets
 
 class WayOfTheCrossScreen extends StatefulWidget {
   const WayOfTheCrossScreen({super.key});
 
   @override
-  State<WayOfTheCrossScreen> createState() => _WayOfTheCrossScreenState();
+  State<WayOfTheCrossScreen> createState() =>
+      _WayOfTheCrossScreenState();
 }
 
-class _WayOfTheCrossScreenState extends State<WayOfTheCrossScreen> {
+class _WayOfTheCrossScreenState
+    extends State<WayOfTheCrossScreen> {
   List<Station> stations = [];
   late PageController _controller;
 
@@ -24,17 +25,18 @@ class _WayOfTheCrossScreenState extends State<WayOfTheCrossScreen> {
     _controller = PageController();
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
   Future<void> loadStations() async {
-    final String data = await rootBundle.loadString('lib/data/way_of_the_cross.json');
-    final List<dynamic> jsonResult = json.decode(data);
+    final String data =
+    await rootBundle.loadString(
+        'lib/data/way_of_the_cross.json');
+
+    final List<dynamic> jsonResult =
+    json.decode(data);
+
     setState(() {
-      stations = jsonResult.map((s) => Station.fromJson(s)).toList();
+      stations = jsonResult
+          .map((s) => Station.fromJson(s))
+          .toList();
     });
   }
 
@@ -42,7 +44,9 @@ class _WayOfTheCrossScreenState extends State<WayOfTheCrossScreen> {
   Widget build(BuildContext context) {
     if (stations.isEmpty) {
       return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
     }
 
@@ -55,6 +59,7 @@ class _WayOfTheCrossScreenState extends State<WayOfTheCrossScreen> {
       body: Stack(
         children: [
 
+          /// PAGE VIEW
           PageView.builder(
             controller: _controller,
             itemCount: stations.length,
@@ -67,6 +72,7 @@ class _WayOfTheCrossScreenState extends State<WayOfTheCrossScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
+                    /// IMAGE
                     Center(
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 20),
@@ -91,6 +97,7 @@ class _WayOfTheCrossScreenState extends State<WayOfTheCrossScreen> {
                       ),
                     ),
 
+                    /// STATION TITLE
                     Text(
                       s.title,
                       style: const TextStyle(
@@ -128,6 +135,7 @@ class _WayOfTheCrossScreenState extends State<WayOfTheCrossScreen> {
             },
           ),
 
+          /// LEFT ARROW (subtle)
           Positioned(
             left: 8,
             top: MediaQuery.of(context).size.height * 0.45,
@@ -148,6 +156,7 @@ class _WayOfTheCrossScreenState extends State<WayOfTheCrossScreen> {
             ),
           ),
 
+          /// RIGHT ARROW (subtle)
           Positioned(
             right: 8,
             top: MediaQuery.of(context).size.height * 0.45,
@@ -168,6 +177,7 @@ class _WayOfTheCrossScreenState extends State<WayOfTheCrossScreen> {
             ),
           ),
 
+          /// BOTTOM OVERLAY (Indicator + Station Count)
           Positioned(
             bottom: 16,
             left: 0,
@@ -175,6 +185,7 @@ class _WayOfTheCrossScreenState extends State<WayOfTheCrossScreen> {
             child: Column(
               children: [
 
+                /// PAGE DOTS
                 SmoothPageIndicator(
                   controller: _controller,
                   count: stations.length,
@@ -187,6 +198,7 @@ class _WayOfTheCrossScreenState extends State<WayOfTheCrossScreen> {
 
                 const SizedBox(height: 6),
 
+                /// STATION COUNTER
                 AnimatedBuilder(
                   animation: _controller,
                   builder: (context, child) {
@@ -209,5 +221,11 @@ class _WayOfTheCrossScreenState extends State<WayOfTheCrossScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

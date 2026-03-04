@@ -5,7 +5,6 @@ import 'package:catholic_daily/screens/settings_screen.dart';
 import 'package:catholic_daily/screens/splash_screen.dart';
 import 'package:catholic_daily/services/settings_service.dart';
 import 'package:flutter/material.dart';
-import 'notifications/notification_service.dart';
 import 'screens/home_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -14,17 +13,6 @@ void main() async {
 
   await Hive.initFlutter();
   await Hive.openBox('dailyReadings');
-
-  await NotificationService.init();
-  final enabled = await SettingsService.notificationsEnabled();
-
-  if (enabled) {
-    final now = DateTime.now().add(const Duration(minutes: 1)); // test
-    await NotificationService.scheduleNextDailyVerse(
-      hour: now.hour,
-      minute: now.minute,
-    );
-    print("main scheduled notifications for 1 minute from now");  }
 
   runApp(CatholicDailyApp());
 }
